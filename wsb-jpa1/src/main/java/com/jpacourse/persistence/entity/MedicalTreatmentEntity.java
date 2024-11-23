@@ -1,15 +1,6 @@
 package com.jpacourse.persistence.entity;
 
-import com.jpacourse.persistence.enums.TreatmentType;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "MEDICAL_TREATMENT")
@@ -22,9 +13,12 @@ public class MedicalTreatmentEntity {
 	@Column(nullable = false)
 	private String description;
 
-	@Enumerated(EnumType.STRING)
-	private TreatmentType type;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "VISIT_ID", nullable = false)
+	// Jednostronna relacja: MedicalTreatmentEntity jako dziecko
+	private VisitEntity visitEntity;
 
+	// Gettery i settery
 	public Long getId() {
 		return id;
 	}
@@ -41,12 +35,11 @@ public class MedicalTreatmentEntity {
 		this.description = description;
 	}
 
-	public TreatmentType getType() {
-		return type;
+	public VisitEntity getVisitEntity() {
+		return visitEntity;
 	}
 
-	public void setType(TreatmentType type) {
-		this.type = type;
+	public void setVisitEntity(VisitEntity visitEntity) {
+		this.visitEntity = visitEntity;
 	}
-
 }
