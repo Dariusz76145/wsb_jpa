@@ -12,6 +12,7 @@ public class PatientEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+
 	@Column(nullable = false)
 	private String firstName;
 
@@ -29,16 +30,18 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
+	@Column(nullable = false)
+	private Integer age; // Nowe pole
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", nullable = false)
-	// Dwustronna relacja: PatientEntity jako rodzic
 	private AddressEntity address;
 
 	@OneToMany(mappedBy = "patientEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-	// Jednostronna relacja: PatientEntity jako rodzic
 	private List<VisitEntity> visits;
 
 	// Gettery i settery
+
 	public Long getId() {
 		return id;
 	}
@@ -93,6 +96,14 @@ public class PatientEntity {
 
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 
 	public AddressEntity getAddress() {
