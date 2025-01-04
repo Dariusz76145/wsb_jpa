@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
@@ -18,29 +20,39 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
 
     @Override
     public PatientEntity addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitTime, String description) {
-        // Find the patient
         PatientEntity patient = entityManager.find(PatientEntity.class, patientId);
         if (patient == null) {
             throw new IllegalArgumentException("Patient with ID " + patientId + " not found.");
         }
 
-        // Find the doctor
         DoctorEntity doctor = entityManager.find(DoctorEntity.class, doctorId);
         if (doctor == null) {
             throw new IllegalArgumentException("Doctor with ID " + doctorId + " not found.");
         }
 
-        // Create a new visit
         VisitEntity visit = new VisitEntity();
         visit.setTime(visitTime);
         visit.setDescription(description);
         visit.setDoctorEntity(doctor);
         visit.setPatientEntity(patient);
 
-        // Add the visit to the patient's list of visits
         patient.getVisits().add(visit);
-
-        // Cascade merge the patient to save the new visit
         return entityManager.merge(patient);
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsByLastName(String lastName) {
+        TypedQuery<PatientEntity> query = entityManager.createQuery(
+                "SELECT p FROM PatientEntity p WHERE p.lastName = :lastName", PatientEntity.class);
+        query.setParameter("lastName", lastName);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsWithMoreThanXVisits(int visitCount) {
+        TypedQuery<PatientEntity> query = entityManager.createQuery(
+                "SELECT p FROM PatientEntity p WHERE SIZE(p.visits) > :visitCount", PatientEntity.class);
+        query.setParameter("visitCount", visitCount);
+        return query.getResultList();
     }
 }
