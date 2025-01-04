@@ -2,6 +2,7 @@ package com.jpacourse.persistence.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,7 +39,7 @@ public class PatientEntity {
 	private AddressEntity address;
 
 	@OneToMany(mappedBy = "patientEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<VisitEntity> visits;
+	private List<VisitEntity> visits = new ArrayList<>(); //;
 
 	// Gettery i settery
 
