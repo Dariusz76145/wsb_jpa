@@ -1,3 +1,10 @@
+-- Usuń dane w odwrotnej kolejności zależności
+DELETE FROM MEDICAL_TREATMENT;
+DELETE FROM VISIT;
+DELETE FROM PATIENT;
+DELETE FROM ADDRESS;
+DELETE FROM DOCTOR;
+
 -- Dane dla tabeli ADDRESS
 INSERT INTO ADDRESS (id, addressLine1, addressLine2, city, postalCode)
 VALUES
@@ -9,7 +16,7 @@ VALUES
 INSERT INTO PATIENT (id, firstName, lastName, telephoneNumber, email, patientNumber, dateOfBirth, address_id, age)
 VALUES
     (1, 'John', 'Doe', '123456789', 'john.doe@example.com', 'P001', '1980-05-20', 1, 43),
-    (2, 'Jane', 'Doe', '987654321', 'jane.doe@example.com', 'P002', '1990-08-15', 2, 33),
+    (2, 'Jane', 'Doe', '987654321', 'jane.doe@example.com', 'P002', '1995-08-15', 2, 28),
     (3, 'Alice', 'Johnson', '564738291', 'alice.johnson@example.com', 'P003', '1995-03-10', 3, 28);
 
 -- Dane dla tabeli DOCTOR
@@ -36,3 +43,4 @@ VALUES
     (3, 'Physical therapy', 3),
     (4, 'Prescription for painkillers', 4),
     (5, 'Dietary supplements recommendation', 5);
+
