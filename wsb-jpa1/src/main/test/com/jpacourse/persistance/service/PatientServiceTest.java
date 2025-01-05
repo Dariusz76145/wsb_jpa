@@ -24,7 +24,8 @@ public class PatientServiceTest {
 
     @Autowired
     private EntityManager entityManager;
-
+    //test usuwajacy pacjenta sprawdza czy usuniete zostaly wszystkie wizyty
+    //(kaskada) i czy nie zostali usunieci doktorzy
     @Transactional
     @Test
     public void testShouldDeletePatientAndCascadeVisitsButKeepDoctors() {
